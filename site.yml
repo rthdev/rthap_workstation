@@ -1,12 +1,23 @@
 ---
 - name: Configure Workstation for personal usage
-  hosts: localhost
+  hosts: all
   become: false
   become_user: root
   tasks:
     - name: Install packages
-      package:
+      dnf:
         name:
           - python3-molecule
+          - docker
+          - podman
         state: installed
+      become: true
+
+    - name: Ensure services are started
+      service:
+        name: "{{ item }}"
+        state: started
+        enabled: true
+      with_items:
+        - docker
       become: true
