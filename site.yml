@@ -1,0 +1,12 @@
+---
+- name: Configure Workstation for personal usage
+  hosts: localhost
+  become: false
+  become_user: root
+  tasks:
+    - name: Install packages
+      package:
+        name:
+          - python3-molecule
+        state: installed
+      become: true
