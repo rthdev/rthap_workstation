@@ -4,15 +4,28 @@
   become: false
   become_user: root
   vars:
+    homedir: "{{ lookup('env','HOME') }}"
     packages_to_install:
       - podman
+      - tree
+      - vscode
+      - vim
         #- python3-molecule
   tasks:
-    - name: enable EPEL Repository
+    - name: Enable EPEL Repository
       ansible.builtin.yum:
         name: https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm
         state: installed
         disable_gpg_check: true
+      become: true
+
+    - name: Enable VSCode repository
+      ansible.builtin.template:
+        src: vscode.repo.j2
+        dest: /etc/yum.repos.d/vscode.repo
+        owner: root
+        group: root
+        mode: 0644
       become: true
 
     - name: Install snapd
@@ -31,19 +44,40 @@
     - name: Template out .bashrc
       ansible.builtin.template:
         src: bashrc.j2
-        dest: "${HOME}/.bashrc"
-        
+        dest: "{{ homedir }}/.bashrc"
+
     - name: Template out .gitconfig
       ansible.builtin.template:
         src: gitconfig.j2
-        dest: "${HOME}/.gitconfig"
-        
+        dest: "{{ homedir }}/.gitconfig"
+
+    - name: Configure VIM global settings
+      blockinfile:
+         dest: "{{ homedir }}/.vimrc"
+         marker: '" {mark} ANSIBLE MANAGED BLOCK'
+         block: |
+              colo desert
+              set expandtab
+              set tabstop=2
+              set shiftwidth=2
+              set sts=2
+              set cursorcolumn
+              set ai
+              set colorcolumn=120
+              highlight ColorColumn ctermbg=8 guibg=lightgrey
+              highlight ExtraWhitespace ctermbg=red guibg=red
+              match ExtraWhitespace /\s\+$/
+              autocmd BufWinEnter * match ExtraWhitespace /\s\+$/
+              autocmd InsertEnter * match ExtraWhitespace /\s\+\%#\@<!$/
+              autocmd InsertLeave * match ExtraWhitespace /\s\+$/
+              autocmd BufWinLeave * call clearmatches()
+
     - name: Install packages
       ansible.builtin.yum:
         name: "{{ packages_to_install }}"
         state: installed
       become: true
-      
+
     - name: disable bell
       ansible.builtin.lineinfile:
         line: set bell-style none
