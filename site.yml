@@ -43,3 +43,9 @@
         name: "{{ packages_to_install }}"
         state: installed
       become: true
+      
+    - name: disable bell
+      ansible.builtin.lineinfile:
+        line: set bell-style none
+        dest: /etc/inputrc
+      become: true
