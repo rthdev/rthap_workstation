@@ -51,7 +51,7 @@
         src: gitconfig.j2
         dest: "{{ homedir }}/.gitconfig"
 
-    - name: Configure VIM global settings
+    - name: Configure VIM settings
       blockinfile:
          dest: "{{ homedir }}/.vimrc"
          marker: '" {mark} ANSIBLE MANAGED BLOCK'
