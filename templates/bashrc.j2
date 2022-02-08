@@ -1,0 +1,40 @@
+# .bashrc
+
+# Source global definitions
+if [ -f /etc/bashrc ]; then
+  . /etc/bashrc
+fi
+
+# Source proxy definitions
+if [ -f /etc/proxy.conf ]; then
+  . /etc/proxy.conf
+fi
+
+# Source bash variables
+if [ -f ${HOME}/.bashvars ]; then
+  . ${HOME}/.bashvars
+fi
+
+# User specific environment
+if ! [[ "$PATH" =~ "$HOME/.local/bin:$HOME/bin:" ]]
+then
+  PATH="$HOME/.local/bin:$HOME/bin:$PATH"
+fi
+export PATH
+
+# Uncomment the following line if you don't like systemctl's auto-paging feature:
+export SYSTEMD_PAGER=
+
+# User specific aliases and functions
+
+GITPROMPT="/usr/share/git-core/contrib/completion/git-prompt.sh"
+
+if [ -f "${GITPROMPT}" ]
+then
+   source ${GITPROMPT}
+   export GIT_PS1_SHOWDIRTYSTATE=1
+   export GIT_PS1_SHOWCOLORHINTS=1
+   export GIT_PS1_SHOWUNTRACKEDFILES=1
+
+   export PS1='\[\033[01;32m\]\[\033[0m\033[0;32m\]\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]$(__git_ps1) $ '
+fi
