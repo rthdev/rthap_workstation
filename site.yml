@@ -32,7 +32,12 @@
       ansible.builtin.template:
         src: bashrc.j2
         dest: "${HOME}/.bashrc"
-
+        
+    - name: Template out .gitconfig
+      ansible.builtin.template:
+        src: gitconfig.j2
+        dest: "${HOME}/.gitconfig"
+        
     - name: Install packages
       ansible.builtin.yum:
         name: "{{ packages_to_install }}"
