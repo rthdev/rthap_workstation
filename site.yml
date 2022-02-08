@@ -3,21 +3,38 @@
   hosts: all
   become: false
   become_user: root
+  vars:
+    packages_to_install:
+      - podman
+        #- python3-molecule
   tasks:
-    - name: Install packages
-      dnf:
-        name:
-          - python3-molecule
-          - docker
-          - podman
+    - name: enable EPEL Repository
+      ansible.builtin.yum:
+        name: https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm
+        state: installed
+        disable_gpg_check: true
+      become: true
+
+    - name: Install snapd
+      ansible.builtin.yum:
+        name: snapd
         state: installed
       become: true
 
-    - name: Ensure services are started
-      service:
-        name: "{{ item }}"
+    - name: Enable snapd socket
+      ansible.builtin.service:
+        name: snapd.socket
         state: started
         enabled: true
-      with_items:
-        - docker
+      become: true
+
+    - name: Template out bashrc
+      ansible.builtin.template:
+        src: bashrc.j2
+        dest: "${HOME}/.bashrc"
+
+    - name: Install packages
+      ansible.builtin.yum:
+        name: "{{ packages_to_install }}"
+        state: installed
       become: true
