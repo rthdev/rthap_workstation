@@ -28,7 +28,7 @@
         enabled: true
       become: true
 
-    - name: Template out bashrc
+    - name: Template out .bashrc
       ansible.builtin.template:
         src: bashrc.j2
         dest: "${HOME}/.bashrc"
