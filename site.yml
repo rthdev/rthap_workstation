@@ -8,7 +8,7 @@
     packages_to_install:
       - podman
       - tree
-      - vscode
+      - code
       - vim
         #- python3-molecule
   tasks:
@@ -56,21 +56,21 @@
          dest: "{{ homedir }}/.vimrc"
          marker: '" {mark} ANSIBLE MANAGED BLOCK'
          block: |
-              colo desert
-              set expandtab
-              set tabstop=2
-              set shiftwidth=2
-              set sts=2
-              set cursorcolumn
-              set ai
-              set colorcolumn=120
-              highlight ColorColumn ctermbg=8 guibg=lightgrey
-              highlight ExtraWhitespace ctermbg=red guibg=red
-              match ExtraWhitespace /\s\+$/
-              autocmd BufWinEnter * match ExtraWhitespace /\s\+$/
-              autocmd InsertEnter * match ExtraWhitespace /\s\+\%#\@<!$/
-              autocmd InsertLeave * match ExtraWhitespace /\s\+$/
-              autocmd BufWinLeave * call clearmatches()
+           colo desert
+           set expandtab
+           set tabstop=2
+           set shiftwidth=2
+           set sts=2
+           set cursorcolumn
+           set ai
+           set colorcolumn=120
+           highlight ColorColumn ctermbg=8 guibg=lightgrey
+           highlight ExtraWhitespace ctermbg=red guibg=red
+           match ExtraWhitespace /\s\+$/
+           autocmd BufWinEnter * match ExtraWhitespace /\s\+$/
+           autocmd InsertEnter * match ExtraWhitespace /\s\+\%#\@<!$/
+           autocmd InsertLeave * match ExtraWhitespace /\s\+$/
+           autocmd BufWinLeave * call clearmatches()
 
     - name: Install packages
       ansible.builtin.yum:
