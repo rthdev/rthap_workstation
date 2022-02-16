@@ -64,7 +64,8 @@
            set cursorcolumn
            set ai
            set colorcolumn=120
-           highlight ColorColumn ctermbg=8 guibg=lightgrey
+           highlight CursorColumn ctermfg=8 ctermbg=15 cterm=bold guifg=white guibg=yellow gui=bold
+           highlight ColorColumn ctermbg=4 guibg=lightgrey
            highlight ExtraWhitespace ctermbg=red guibg=red
            match ExtraWhitespace /\s\+$/
            autocmd BufWinEnter * match ExtraWhitespace /\s\+$/
