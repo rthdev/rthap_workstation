@@ -1,0 +1,4 @@
+collections:
+  - name: https://github.com/rthdev/ansible-collections.git
+    type: git
+    version: develop
