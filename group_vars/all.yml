@@ -1,0 +1,32 @@
+dns_zones:
+  - filename: /etc/dns-zone-example.com.conf
+    serial: 2021100000
+    refresh: 3600
+    retry: 1800
+    expire: 604800
+    minttl: 86400
+    fwd_name: example.com
+    rev_name: "0.21.172.in-addr.arpa"
+    nameserver: rhws.example.com
+    entries:
+      - name: rhws.example.com
+        ip: 172.21.0.1
+        aliases:
+          - dns.example.com
+      - name: myapp.example.com
+        ip: 172.21.0.200
+      - name: haprx1.example.com
+        ip: 172.21.0.100
+      - name: rhsrv1.example.com
+        ip: 172.21.0.101
+        aliases:
+          - ac-s1.example.com
+      - name: rhsrv2.example.com
+        aliases:
+          - ac-s2.example.com
+        ip: 172.21.0.102
+      - name: rhsrv3.example.com
+        aliases:
+          - automation.example.com
+        ip: 172.21.0.103
+    dir: /var/named/domains

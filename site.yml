@@ -10,6 +10,7 @@
       - tree
       - code
       - vim
+      - bind
         #- python3-molecule
   tasks:
     - name: Enable EPEL Repository
@@ -84,3 +85,16 @@
         line: set bell-style none
         dest: /etc/inputrc
       become: true
+
+    - name: Configure DNS Zones
+      ansible.builtin.include_role:
+        name: rthdev.general.rthar_dns_zone
+      vars:
+        rthar_dns_zone_config: "{{ item }}"
+      loop: "{{ dns_zones }}"
+
+    - name: Configure DNS Server
+      ansible.builtin.include_role:
+        name: rthdev.general.rthar_dns_server
+      vars:
+        rthar_dns_server_external_config_files: "{{ dns_zones | map(attribute='filename') | list }}"
