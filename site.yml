@@ -65,7 +65,7 @@
          marker: '" {mark} ANSIBLE MANAGED BLOCK'
          create: true
          block: |
-           colo desert
+           colo slate
            set expandtab
            set tabstop=2
            set shiftwidth=2
@@ -73,8 +73,6 @@
            set cursorcolumn
            set ai
            set colorcolumn=120
-           highlight CursorColumn ctermfg=0 ctermbg=187 cterm=bold guifg=white guibg=yellow gui=bold
-           highlight ColorColumn ctermbg=16 guibg=lightgrey
            highlight ExtraWhitespace ctermbg=red guibg=red
            match ExtraWhitespace /\s\+$/
            autocmd BufWinEnter * match ExtraWhitespace /\s\+$/
