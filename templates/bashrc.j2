@@ -5,16 +5,6 @@ if [ -f /etc/bashrc ]; then
   . /etc/bashrc
 fi
 
-# Source proxy definitions
-if [ -f /etc/proxy.conf ]; then
-  . /etc/proxy.conf
-fi
-
-# Source bash variables
-if [ -f ${HOME}/.bashvars ]; then
-  . ${HOME}/.bashvars
-fi
-
 # User specific environment
 if ! [[ "$PATH" =~ "$HOME/.local/bin:$HOME/bin:" ]]
 then
@@ -23,9 +13,25 @@ fi
 export PATH
 
 # Uncomment the following line if you don't like systemctl's auto-paging feature:
-export SYSTEMD_PAGER=
+# export SYSTEMD_PAGER=
 
 # User specific aliases and functions
+if [ -d ~/.bashrc.d ]; then
+  for rc in ~/.bashrc.d/*; do
+    if [ -f "$rc" ]; then
+      . "$rc"
+    fi
+  done
+fi
+
+unset rc
+
+# User specific aliases and functions
+
+# Source proxy definitions
+if [ -f /etc/proxy.conf ]; then
+  . /etc/proxy.conf
+fi
 
 GITPROMPT="/usr/share/git-core/contrib/completion/git-prompt.sh"
 
